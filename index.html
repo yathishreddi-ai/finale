@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zomato-Like Food Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      color: #e23744;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .search-bar {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      display: flex;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px 0 0 5px;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      background-color: #e23744;
+      color: white;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+
+    .restaurant-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .card p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .rating {
+      color: #ffc107;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Food Explorer</h1>
+    <p>Find the best restaurants near you</p>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for restaurants or cuisines..." />
+    <button onclick="searchRestaurants()">Search</button>
+  </div>
+
+  <div class="restaurant-list" id="restaurantList">
+    <!-- Restaurant cards go here -->
+  </div>
+
+  <script>
+    const restaurants = [
+      { name: "Pizza Palace", cuisine: "Italian", rating: 4.5, deliveryTime: "30 mins", price: "$$", image: "" },
+      { name: "Sushi World", cuisine: "Japanese", rating: 4.8, deliveryTime: "40 mins", price: "$$$", image: "" },
+      { name: "Curry Express", cuisine: "Indian", rating: 4.2, deliveryTime: "25 mins", price: "$", image: "" },
+      { name: "Burger Town", cuisine: "American", rating: 4.0, deliveryTime: "20 mins", price: "$", image: "" },
+      { name: "Green Bowl", cuisine: "Healthy", rating: 4.6, deliveryTime: "35 mins", price: "$$", image: "" },
+      { name: "Taco Fiesta", cuisine: "Mexican", rating: 4.3, deliveryTime: "30 mins", price: "$$", image: "" },
+    ];
+
+    function renderRestaurants(list) {
+      const container = document.getElementById("restaurantList");
+      container.innerHTML = "";
+
+      if (list.length === 0) {
+        container.innerHTML = "<p>No restaurants found.</p>";
+        return;
+      }
+
+      list.forEach(restaurant => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${restaurant.name}</h3>
+          <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+          <p class="rating">⭐ ${restaurant.rating}</p>
+          <p><strong>Delivery:</strong> ${restaurant.deliveryTime}</p>
+          <p><strong>Price:</strong> ${restaurant.price}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function searchRestaurants() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = restaurants.filter(r =>
+        r.name.toLowerCase().includes(input) ||
+        r.cuisine.toLowerCase().includes(input)
+      );
+      renderRestaurants(filtered);
+    }
+
+    // Initial render
+    renderRestaurants(restaurants);
+  </script>
+</body>
+</html>
